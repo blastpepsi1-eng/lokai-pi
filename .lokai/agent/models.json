@@ -1,0 +1,21 @@
+{
+  "providers": {
+    "local-llamacpp": {
+      "api": "openai-completions",
+      "baseUrl": "http://127.0.0.1:8081/v1",
+      "apiKey": "local",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        {
+          "id": "qwen36-27b",
+          "name": "qwen36-27b",
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        }
+      ]
+    }
+  }
+}

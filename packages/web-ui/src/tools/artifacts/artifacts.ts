@@ -1,8 +1,8 @@
 import { icon } from "@mariozechner/mini-lit";
 import "@mariozechner/mini-lit/dist/MarkdownBlock.js";
+import type { Agent, AgentMessage, AgentTool } from "@blastpepsi1-eng/lokai-agent-core";
+import { StringEnum, type ToolCall } from "@blastpepsi1-eng/lokai-ai";
 import { Button } from "@mariozechner/mini-lit/dist/Button.js";
-import type { Agent, AgentMessage, AgentTool } from "@mariozechner/pi-agent-core";
-import { StringEnum, type ToolCall } from "@mariozechner/pi-ai";
 import { html, LitElement, type TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { createRef, type Ref, ref } from "lit/directives/ref.js";

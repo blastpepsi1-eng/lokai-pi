@@ -2,7 +2,7 @@
  * CLI argument parsing and help display
  */
 
-import type { ThinkingLevel } from "@mariozechner/pi-agent-core";
+import type { ThinkingLevel } from "@blastpepsi1-eng/lokai-agent-core";
 import chalk from "chalk";
 import { APP_NAME, CONFIG_DIR_NAME, ENV_AGENT_DIR } from "../config.js";
 import type { ExtensionFlag } from "../core/extensions/types.js";
@@ -206,6 +206,11 @@ ${chalk.bold("Commands:")}
   ${APP_NAME} update [source|self|pi]   Update pi and installed extensions
   ${APP_NAME} list                      List installed extensions from settings
   ${APP_NAME} config                    Open TUI to enable/disable package resources
+  ${APP_NAME} runtime install llama.cpp --from <path>
+                                      Install/register a local llama.cpp runtime
+  ${APP_NAME} model import <model.gguf> Register a local GGUF model for llama.cpp
+  ${APP_NAME} runtime start llama.cpp   Launch managed localhost llama-server
+  ${APP_NAME} status                    Show native runtime/model status
   ${APP_NAME} <command> --help          Show help for install/remove/uninstall/update/list
 
 ${chalk.bold("Options:")}
@@ -322,13 +327,12 @@ ${chalk.bold("Environment Variables:")}
   AWS_ACCESS_KEY_ID                - AWS access key for Amazon Bedrock
   AWS_SECRET_ACCESS_KEY            - AWS secret key for Amazon Bedrock
   AWS_BEARER_TOKEN_BEDROCK         - Bedrock API key (bearer token)
-  AWS_REGION                       - AWS region for Amazon Bedrock (e.g., us-east-1)
-  ${ENV_AGENT_DIR.padEnd(32)} - Session storage directory (default: ~/${CONFIG_DIR_NAME}/agent)
-  PI_PACKAGE_DIR                   - Override package directory (for Nix/Guix store paths)
-  PI_OFFLINE                       - Disable startup network operations when set to 1/true/yes
-  PI_TELEMETRY                     - Override install telemetry when set to 1/true/yes or 0/false/no
-  PI_SHARE_VIEWER_URL              - Base URL for /share command (default: https://pi.dev/session/)
-  PI_AI_ANTIGRAVITY_VERSION        - Override Antigravity User-Agent version (e.g., 1.23.0)
+	  AWS_REGION                       - AWS region for Amazon Bedrock (e.g., us-east-1)
+	  ${ENV_AGENT_DIR.padEnd(32)} - Session storage directory (default: ~/${CONFIG_DIR_NAME}/agent)
+	  PI_PACKAGE_DIR                   - Override package directory (for Nix/Guix store paths)
+	  PI_OFFLINE                       - Disable startup network operations when set to 1/true/yes
+	  PI_SHARE_VIEWER_URL              - Base URL for /share command (default: https://pi.dev/session/)
+	  PI_AI_ANTIGRAVITY_VERSION        - Override Antigravity User-Agent version (e.g., 1.23.0)
 
 ${chalk.bold("Built-in Tool Names:")}
   read   - Read file contents

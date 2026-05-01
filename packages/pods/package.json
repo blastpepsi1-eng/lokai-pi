@@ -1,10 +1,10 @@
 {
-	"name": "@mariozechner/pi",
+	"name": "@blastpepsi1-eng/lokai",
 	"version": "0.70.5",
 	"description": "CLI tool for managing vLLM deployments on GPU pods",
 	"type": "module",
 	"bin": {
-		"pi-pods": "dist/cli.js"
+		"lokai-pods": "dist/cli.js"
 	},
 	"scripts": {
 		"clean": "shx rm -rf dist",
@@ -33,7 +33,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@mariozechner/pi-agent-core": "^0.70.5",
+		"@blastpepsi1-eng/lokai-agent-core": "^0.70.5",
 		"chalk": "^5.5.0"
 	},
 	"devDependencies": {}

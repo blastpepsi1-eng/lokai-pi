@@ -1,4 +1,4 @@
-import { DynamicBorder, type ExtensionAPI, type ExtensionContext } from "@mariozechner/pi-coding-agent";
+import { DynamicBorder, type ExtensionAPI, type ExtensionContext } from "@blastpepsi1-eng/lokai-coding-agent";
 import { Container, Text } from "@mariozechner/pi-tui";
 
 const PR_PROMPT_PATTERN = /^\s*You are given one or more GitHub PR URLs:\s*(\S+)/im;

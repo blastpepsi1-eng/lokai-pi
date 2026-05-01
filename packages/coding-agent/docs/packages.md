@@ -2,7 +2,7 @@
 
 # Pi Packages
 
-Pi packages bundle extensions, skills, prompt templates, and themes so you can share them through npm or git. A package can declare resources in `package.json` under the `pi` key, or use conventional directories.
+Pi packages bundle extensions, skills, prompt templates, and themes as local prebuilt packages. A package can declare resources in `package.json` under the `pi` key, or use conventional directories.
 
 ## Table of Contents
 
@@ -20,85 +20,25 @@ Pi packages bundle extensions, skills, prompt templates, and themes so you can s
 > **Security:** Pi packages run with full system access. Extensions execute arbitrary code, and skills can instruct the model to perform any action including running executables. Review source code before installing third-party packages.
 
 ```bash
-pi install npm:@foo/bar@1.0.0
-pi install git:github.com/user/repo@v1
-pi install https://github.com/user/repo  # raw URLs work too
 pi install /absolute/path/to/package
 pi install ./relative/path/to/package
 
-pi remove npm:@foo/bar
+pi remove ./relative/path/to/package
 pi list                     # show installed packages from settings
-pi update                   # update pi and all non-pinned packages
-pi update --extensions      # update all non-pinned packages only
-pi update --self            # update pi only
-pi update npm:@foo/bar      # update one package
-pi update --extension npm:@foo/bar
+pi update                   # no-op for local-only packages
 ```
 
-By default, `install` and `remove` write to global settings (`~/.pi/agent/settings.json`). Use `-l` to write to project settings (`.pi/settings.json`) instead. Project settings can be shared with your team, and pi installs any missing packages automatically on startup.
+By default, `install` and `remove` write to global settings (`~/.pi/agent/settings.json`). Use `-l` to write to project settings (`.pi/settings.json`) instead. Project settings can be shared with your team.
 
 To try a package without installing it, use `--extension` or `-e`. This installs to a temporary directory for the current run only:
 
 ```bash
-pi -e npm:@foo/bar
-pi -e git:github.com/user/repo
+pi -e ./relative/path/to/package
 ```
 
 ## Package Sources
 
-Pi accepts three source types in settings and `pi install`.
-
-### npm
-
-```
-npm:@scope/pkg@1.2.3
-npm:pkg
-```
-
-- Versioned specs are pinned and skipped by package updates (`pi update`, `pi update --extensions`).
-- Global installs use `npm install -g`.
-- Project installs go under `.pi/npm/`.
-- Set `npmCommand` in `settings.json` to pin npm package lookup and install operations to a specific wrapper command such as `mise` or `asdf`.
-
-Example:
-
-```json
-{
-  "npmCommand": ["mise", "exec", "node@20", "--", "npm"]
-}
-```
-
-### git
-
-```
-git:github.com/user/repo@v1
-git:git@github.com:user/repo@v1
-https://github.com/user/repo@v1
-ssh://git@github.com/user/repo@v1
-```
-
-- Without `git:` prefix, only protocol URLs are accepted (`https://`, `http://`, `ssh://`, `git://`).
-- With `git:` prefix, shorthand formats are accepted, including `github.com/user/repo` and `git@github.com:user/repo`.
-- HTTPS and SSH URLs are both supported.
-- SSH URLs use your configured SSH keys automatically (respects `~/.ssh/config`).
-- For non-interactive runs (for example CI), you can set `GIT_TERMINAL_PROMPT=0` to disable credential prompts and set `GIT_SSH_COMMAND` (for example `ssh -o BatchMode=yes -o ConnectTimeout=5`) to fail fast.
-- Refs pin the package and skip package updates (`pi update`, `pi update --extensions`).
-- Cloned to `~/.pi/agent/git/<host>/<path>` (global) or `.pi/git/<host>/<path>` (project).
-- Runs `npm install` after clone or pull if `package.json` exists.
-
-**SSH examples:**
-```bash
-# git@host:path shorthand (requires git: prefix)
-pi install git:git@github.com:user/repo
-
-# ssh:// protocol format
-pi install ssh://git@github.com/user/repo
-
-# With version ref
-pi install git:git@github.com:user/repo@v1.0.0
-```
-
-### Local Paths
+Pi accepts local paths in settings and `pi install`.
 
 ```
 /absolute/path/to/package
@@ -160,9 +100,9 @@ If no `pi` manifest is present, pi auto-discovers resources from these directori
 
 ## Dependencies
 
-Third party runtime dependencies belong in `dependencies` in `package.json`. Dependencies that do not register extensions, skills, prompt templates, or themes also belong in `dependencies`. When pi installs a package from npm or git, it runs `npm install`, so those dependencies are installed automatically.
+Third party runtime dependencies belong in `dependencies` in `package.json`. Dependencies that do not register extensions, skills, prompt templates, or themes also belong in `dependencies`. Pi does not install dependencies for local packages, so packages must be prebuilt before they are referenced.
 
-Pi bundles core packages for extensions and skills. If you import any of these, list them in `peerDependencies` with a `"*"` range and do not bundle them: `@mariozechner/pi-ai`, `@mariozechner/pi-agent-core`, `@mariozechner/pi-coding-agent`, `@mariozechner/pi-tui`, `typebox`.
+Pi bundles core packages for extensions and skills. If you import any of these, list them in `peerDependencies` with a `"*"` range and do not bundle them: `@blastpepsi1-eng/lokai-ai`, `@blastpepsi1-eng/lokai-agent-core`, `@blastpepsi1-eng/lokai-coding-agent`, `@blastpepsi1-eng/lokai-tui`, `typebox`.
 
 Other pi packages must be bundled in your tarball. Add them to `dependencies` and `bundledDependencies`, then reference their resources through `node_modules/` paths. Pi loads packages with separate module roots, so separate installs do not collide or share modules.
 
@@ -188,9 +128,9 @@ Filter what a package loads using the object form in settings:
 ```json
 {
   "packages": [
-    "npm:simple-pkg",
+    "./simple-pkg",
     {
-      "source": "npm:my-package",
+      "source": "./my-package",
       "extensions": ["extensions/*.ts", "!extensions/legacy.ts"],
       "skills": [],
       "prompts": ["prompts/review.md"],
@@ -217,6 +157,4 @@ Use `pi config` to enable or disable extensions, skills, prompt templates, and t
 
 Packages can appear in both global and project settings. If the same package appears in both, the project entry wins. Identity is determined by:
 
-- npm: package name
-- git: repository URL without ref
 - local: resolved absolute path

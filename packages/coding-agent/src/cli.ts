@@ -5,6 +5,7 @@
  *
  * Test with: npx tsx src/cli-new.ts [args...]
  */
+import { basename } from "node:path";
 import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import { APP_NAME } from "./config.js";
 import { main } from "./main.js";
@@ -19,4 +20,9 @@ process.emitWarning = (() => {}) as typeof process.emitWarning;
 // AbortController-based deadlines via retry.provider.timeoutMs.
 setGlobalDispatcher(new EnvHttpProxyAgent({ bodyTimeout: 0, headersTimeout: 0 }));
 
-main(process.argv.slice(2));
+const cliArgs = process.argv.slice(2);
+if (basename(process.argv[1] ?? "") === "lokai-llama-runner") {
+	cliArgs.unshift("llama-runner");
+}
+
+main(cliArgs);

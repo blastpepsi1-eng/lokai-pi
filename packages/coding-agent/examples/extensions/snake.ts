@@ -2,8 +2,8 @@
  * Snake game extension - play snake with /snake command
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { matchesKey, visibleWidth } from "@mariozechner/pi-tui";
+import type { ExtensionAPI } from "@blastpepsi1-eng/lokai-coding-agent";
+import { matchesKey, visibleWidth } from "@blastpepsi1-eng/lokai-tui";
 
 const GAME_WIDTH = 40;
 const GAME_HEIGHT = 15;

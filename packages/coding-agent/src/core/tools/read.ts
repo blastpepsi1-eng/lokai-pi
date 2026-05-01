@@ -1,6 +1,6 @@
-import type { AgentTool } from "@mariozechner/pi-agent-core";
-import type { Api, ImageContent, Model, TextContent } from "@mariozechner/pi-ai";
-import { Text } from "@mariozechner/pi-tui";
+import type { AgentTool } from "@blastpepsi1-eng/lokai-agent-core";
+import type { Api, ImageContent, Model, TextContent } from "@blastpepsi1-eng/lokai-ai";
+import { Text } from "@blastpepsi1-eng/lokai-tui";
 import { constants } from "fs";
 import { access as fsAccess, readFile as fsReadFile } from "fs/promises";
 import { type Static, Type } from "typebox";

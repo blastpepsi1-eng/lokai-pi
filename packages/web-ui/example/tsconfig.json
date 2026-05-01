@@ -6,10 +6,10 @@
 		"moduleResolution": "bundler",
 		"paths": {
 			"*": ["./*"],
-			"@mariozechner/pi-agent-core": ["../../agent/dist/index.d.ts"],
-			"@mariozechner/pi-ai": ["../../ai/dist/index.d.ts"],
-			"@mariozechner/pi-tui": ["../../tui/dist/index.d.ts"],
-			"@mariozechner/pi-web-ui": ["../dist/index.d.ts"]
+			"@blastpepsi1-eng/lokai-agent-core": ["../../agent/src/index.ts"],
+			"@blastpepsi1-eng/lokai-ai": ["../../ai/src/index.ts"],
+			"@blastpepsi1-eng/lokai-tui": ["../../tui/src/index.ts"],
+			"@blastpepsi1-eng/lokai-web-ui": ["../src/index.ts"]
 		},
 		"strict": true,
 		"skipLibCheck": true,

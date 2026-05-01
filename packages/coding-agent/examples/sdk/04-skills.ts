@@ -12,7 +12,7 @@ import {
 	getAgentDir,
 	SessionManager,
 	type Skill,
-} from "@mariozechner/pi-coding-agent";
+} from "@blastpepsi1-eng/lokai-coding-agent";
 
 // Or define custom skills inline
 const customSkill: Skill = {

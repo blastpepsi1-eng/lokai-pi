@@ -16,11 +16,11 @@ import { spawn } from "node:child_process";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
-import type { AgentToolResult } from "@mariozechner/pi-agent-core";
-import type { Message } from "@mariozechner/pi-ai";
-import { StringEnum } from "@mariozechner/pi-ai";
-import { type ExtensionAPI, getMarkdownTheme, withFileMutationQueue } from "@mariozechner/pi-coding-agent";
-import { Container, Markdown, Spacer, Text } from "@mariozechner/pi-tui";
+import type { AgentToolResult } from "@blastpepsi1-eng/lokai-agent-core";
+import type { Message } from "@blastpepsi1-eng/lokai-ai";
+import { StringEnum } from "@blastpepsi1-eng/lokai-ai";
+import { type ExtensionAPI, getMarkdownTheme, withFileMutationQueue } from "@blastpepsi1-eng/lokai-coding-agent";
+import { Container, Markdown, Spacer, Text } from "@blastpepsi1-eng/lokai-tui";
 import { Type } from "typebox";
 import { type AgentConfig, type AgentScope, discoverAgents } from "./agents.js";
 

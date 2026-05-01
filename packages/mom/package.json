@@ -1,5 +1,5 @@
 {
-	"name": "@mariozechner/pi-mom",
+	"name": "@blastpepsi1-eng/lokai-mom",
 	"version": "0.70.5",
 	"description": "Slack bot that delegates messages to the pi coding agent",
 	"type": "module",
@@ -20,9 +20,9 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/sandbox-runtime": "^0.0.16",
-		"@mariozechner/pi-agent-core": "^0.70.5",
-		"@mariozechner/pi-ai": "^0.70.5",
-		"@mariozechner/pi-coding-agent": "^0.70.5",
+		"@blastpepsi1-eng/lokai-agent-core": "^0.70.5",
+		"@blastpepsi1-eng/lokai-ai": "^0.70.5",
+		"@blastpepsi1-eng/lokai-coding-agent": "^0.70.5",
 		"typebox": "^1.1.24",
 		"@slack/socket-mode": "^2.0.0",
 		"@slack/web-api": "^7.0.0",

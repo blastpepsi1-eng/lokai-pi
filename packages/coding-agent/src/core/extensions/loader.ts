@@ -9,12 +9,12 @@ import { createRequire } from "node:module";
 import * as os from "node:os";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
+import * as _bundledPiAgentCore from "@blastpepsi1-eng/lokai-agent-core";
+import * as _bundledPiAi from "@blastpepsi1-eng/lokai-ai";
+import * as _bundledPiAiOauth from "@blastpepsi1-eng/lokai-ai/oauth";
+import type { KeyId } from "@blastpepsi1-eng/lokai-tui";
+import * as _bundledPiTui from "@blastpepsi1-eng/lokai-tui";
 import { createJiti } from "@mariozechner/jiti";
-import * as _bundledPiAgentCore from "@mariozechner/pi-agent-core";
-import * as _bundledPiAi from "@mariozechner/pi-ai";
-import * as _bundledPiAiOauth from "@mariozechner/pi-ai/oauth";
-import type { KeyId } from "@mariozechner/pi-tui";
-import * as _bundledPiTui from "@mariozechner/pi-tui";
 // Static imports of packages that extensions may use.
 // These MUST be static so Bun bundles them into the compiled binary.
 // The virtualModules option then makes them available to extensions.
@@ -23,7 +23,7 @@ import * as _bundledTypeboxCompile from "typebox/compile";
 import * as _bundledTypeboxValue from "typebox/value";
 import { CONFIG_DIR_NAME, getAgentDir, isBunBinary } from "../../config.js";
 // NOTE: This import works because loader.ts exports are NOT re-exported from index.ts,
-// avoiding a circular dependency. Extensions can import from @mariozechner/pi-coding-agent.
+// avoiding a circular dependency. Extensions can import from @blastpepsi1-eng/lokai-coding-agent.
 import * as _bundledPiCodingAgent from "../../index.js";
 import { createEventBus, type EventBus } from "../event-bus.js";
 import type { ExecOptions } from "../exec.js";
@@ -49,11 +49,11 @@ const VIRTUAL_MODULES: Record<string, unknown> = {
 	"@sinclair/typebox": _bundledTypebox,
 	"@sinclair/typebox/compile": _bundledTypeboxCompile,
 	"@sinclair/typebox/value": _bundledTypeboxValue,
-	"@mariozechner/pi-agent-core": _bundledPiAgentCore,
-	"@mariozechner/pi-tui": _bundledPiTui,
-	"@mariozechner/pi-ai": _bundledPiAi,
-	"@mariozechner/pi-ai/oauth": _bundledPiAiOauth,
-	"@mariozechner/pi-coding-agent": _bundledPiCodingAgent,
+	"@blastpepsi1-eng/lokai-agent-core": _bundledPiAgentCore,
+	"@blastpepsi1-eng/lokai-tui": _bundledPiTui,
+	"@blastpepsi1-eng/lokai-ai": _bundledPiAi,
+	"@blastpepsi1-eng/lokai-ai/oauth": _bundledPiAiOauth,
+	"@blastpepsi1-eng/lokai-coding-agent": _bundledPiCodingAgent,
 };
 
 const require = createRequire(import.meta.url);
@@ -84,11 +84,17 @@ function getAliases(): Record<string, string> {
 	};
 
 	_aliases = {
-		"@mariozechner/pi-coding-agent": packageIndex,
-		"@mariozechner/pi-agent-core": resolveWorkspaceOrImport("agent/dist/index.js", "@mariozechner/pi-agent-core"),
-		"@mariozechner/pi-tui": resolveWorkspaceOrImport("tui/dist/index.js", "@mariozechner/pi-tui"),
-		"@mariozechner/pi-ai": resolveWorkspaceOrImport("ai/dist/index.js", "@mariozechner/pi-ai"),
-		"@mariozechner/pi-ai/oauth": resolveWorkspaceOrImport("ai/dist/oauth.js", "@mariozechner/pi-ai/oauth"),
+		"@blastpepsi1-eng/lokai-coding-agent": packageIndex,
+		"@blastpepsi1-eng/lokai-agent-core": resolveWorkspaceOrImport(
+			"agent/dist/index.js",
+			"@blastpepsi1-eng/lokai-agent-core",
+		),
+		"@blastpepsi1-eng/lokai-tui": resolveWorkspaceOrImport("tui/dist/index.js", "@blastpepsi1-eng/lokai-tui"),
+		"@blastpepsi1-eng/lokai-ai": resolveWorkspaceOrImport("ai/dist/index.js", "@blastpepsi1-eng/lokai-ai"),
+		"@blastpepsi1-eng/lokai-ai/oauth": resolveWorkspaceOrImport(
+			"ai/dist/oauth.js",
+			"@blastpepsi1-eng/lokai-ai/oauth",
+		),
 		typebox: typeboxEntry,
 		"typebox/compile": typeboxCompileEntry,
 		"typebox/value": typeboxValueEntry,

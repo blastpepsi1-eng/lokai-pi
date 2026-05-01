@@ -1,5 +1,5 @@
-import { Agent, type AgentEvent } from "@mariozechner/pi-agent-core";
-import { getModel, type ImageContent } from "@mariozechner/pi-ai";
+import { Agent, type AgentEvent } from "@blastpepsi1-eng/lokai-agent-core";
+import { getModel, type ImageContent } from "@blastpepsi1-eng/lokai-ai";
 import {
 	AgentSession,
 	AuthStorage,
@@ -11,7 +11,7 @@ import {
 	type ResourceLoader,
 	SessionManager,
 	type Skill,
-} from "@mariozechner/pi-coding-agent";
+} from "@blastpepsi1-eng/lokai-coding-agent";
 import { existsSync, readFileSync } from "fs";
 import { mkdir, writeFile } from "fs/promises";
 import { homedir } from "os";

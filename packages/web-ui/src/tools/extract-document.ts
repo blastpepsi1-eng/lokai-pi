@@ -1,5 +1,5 @@
-import type { AgentTool } from "@mariozechner/pi-agent-core";
-import type { ToolResultMessage } from "@mariozechner/pi-ai";
+import type { AgentTool } from "@blastpepsi1-eng/lokai-agent-core";
+import type { ToolResultMessage } from "@blastpepsi1-eng/lokai-ai";
 import { html } from "lit";
 import { createRef, ref } from "lit/directives/ref.js";
 import { FileText } from "lucide";

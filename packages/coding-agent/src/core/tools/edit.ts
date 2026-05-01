@@ -1,5 +1,5 @@
-import type { AgentTool } from "@mariozechner/pi-agent-core";
-import { Box, Container, Spacer, Text } from "@mariozechner/pi-tui";
+import type { AgentTool } from "@blastpepsi1-eng/lokai-agent-core";
+import { Box, Container, Spacer, Text } from "@blastpepsi1-eng/lokai-tui";
 import { constants } from "fs";
 import { access as fsAccess, readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
 import { type Static, Type } from "typebox";

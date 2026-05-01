@@ -1,7 +1,14 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@blastpepsi1-eng/lokai-agent-core": ["../agent/src/index.ts"],
+      "@blastpepsi1-eng/lokai-ai": ["../ai/src/index.ts"],
+      "@blastpepsi1-eng/lokai-tui": ["../tui/src/index.ts"]
+    }
   },
   "include": ["src/**/*"]
 }

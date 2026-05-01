@@ -1,4 +1,4 @@
-import type { Transport } from "@mariozechner/pi-ai";
+import type { Transport } from "@blastpepsi1-eng/lokai-ai";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { homedir } from "os";
 import { dirname, join } from "path";
@@ -59,7 +59,7 @@ export interface WarningSettings {
 export type TransportSetting = Transport;
 
 /**
- * Package source for npm/git packages.
+ * Package source for local prebuilt packages.
  * - String form: load all resources from the package
  * - Object form: filter which resources to load
  */
@@ -89,10 +89,10 @@ export interface Settings {
 	shellPath?: string; // Custom shell path (e.g., for Cygwin users on Windows)
 	quietStartup?: boolean;
 	shellCommandPrefix?: string; // Prefix prepended to every bash command (e.g., "shopt -s expand_aliases" for alias support)
-	npmCommand?: string[]; // Command used for npm package lookup/install operations, argv-style (e.g., ["mise", "exec", "node@20", "--", "npm"])
+	npmCommand?: string[]; // Legacy setting ignored by local-only package management
 	collapseChangelog?: boolean; // Show condensed changelog after update (use /changelog for full)
-	enableInstallTelemetry?: boolean; // default: true - anonymous version/update ping after changelog-detected updates
-	packages?: PackageSource[]; // Array of npm/git package sources (string or object with filtering)
+	enableInstallTelemetry?: boolean; // Legacy setting ignored by local-only builds
+	packages?: PackageSource[]; // Array of local package sources (string or object with filtering)
 	extensions?: string[]; // Array of local extension file paths or directories
 	skills?: string[]; // Array of local skill file paths or directories
 	prompts?: string[]; // Array of local prompt template paths or directories

@@ -1,6 +1,6 @@
-import type { AgentTool } from "@mariozechner/pi-agent-core";
-import { fauxAssistantMessage, fauxToolCall } from "@mariozechner/pi-ai";
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { AgentTool } from "@blastpepsi1-eng/lokai-agent-core";
+import { fauxAssistantMessage, fauxToolCall } from "@blastpepsi1-eng/lokai-ai";
+import type { ExtensionAPI } from "@blastpepsi1-eng/lokai-coding-agent";
 import { Type } from "typebox";
 import { afterEach, describe, expect, it } from "vitest";
 import { createHarness, getAssistantTexts, getUserTexts, type Harness } from "../harness.js";

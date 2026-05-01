@@ -1,4 +1,4 @@
-import { fauxAssistantMessage } from "@mariozechner/pi-ai";
+import { fauxAssistantMessage } from "@blastpepsi1-eng/lokai-ai";
 import { afterEach, describe, expect, it } from "vitest";
 import { createHarness, getAssistantTexts, type Harness } from "../harness.js";
 

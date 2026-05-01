@@ -9,7 +9,7 @@ import type {
 	TextContent,
 	Tool,
 	ToolResultMessage,
-} from "@mariozechner/pi-ai";
+} from "@blastpepsi1-eng/lokai-ai";
 import type { Static, TSchema } from "typebox";
 
 /**
@@ -225,7 +225,7 @@ export interface AgentLoopConfig extends SimpleStreamOptions {
 
 /**
  * Thinking/reasoning level for models that support it.
- * Note: "xhigh" is only supported by selected model families. Use supportsXhigh() from @mariozechner/pi-ai
+ * Note: "xhigh" is only supported by selected model families. Use supportsXhigh() from @blastpepsi1-eng/lokai-ai
  * to detect support for a concrete model.
  */
 export type ThinkingLevel = "off" | "minimal" | "low" | "medium" | "high" | "xhigh";

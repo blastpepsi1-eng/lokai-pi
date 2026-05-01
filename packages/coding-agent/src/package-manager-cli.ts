@@ -1,13 +1,6 @@
 import chalk from "chalk";
-import { spawn } from "child_process";
 import { selectConfig } from "./cli/config-selector.js";
-import {
-	APP_NAME,
-	getAgentDir,
-	getSelfUpdateCommand,
-	getSelfUpdateUnavailableInstruction,
-	PACKAGE_NAME,
-} from "./config.js";
+import { APP_NAME, CONFIG_DIR_NAME, getAgentDir } from "./config.js";
 import { DefaultPackageManager } from "./core/package-manager.js";
 import { SettingsManager } from "./core/settings-manager.js";
 
@@ -44,7 +37,7 @@ function getPackageCommandUsage(command: PackageCommand): string {
 		case "remove":
 			return `${APP_NAME} remove <source> [-l]`;
 		case "update":
-			return `${APP_NAME} update [source|self|pi] [--self] [--extensions] [--extension <source>]`;
+			return `${APP_NAME} update`;
 		case "list":
 			return `${APP_NAME} list`;
 	}
@@ -56,19 +49,14 @@ function printPackageCommandHelp(command: PackageCommand): void {
 			console.log(`${chalk.bold("Usage:")}
   ${getPackageCommandUsage("install")}
 
-Install a package and add it to settings.
+	Install a package and add it to settings.
 
-Options:
-  -l, --local    Install project-locally (.pi/settings.json)
+	Options:
+	  -l, --local    Add project-locally (${CONFIG_DIR_NAME}/settings.json)
 
-Examples:
-  ${APP_NAME} install npm:@foo/bar
-  ${APP_NAME} install git:github.com/user/repo
-  ${APP_NAME} install git:git@github.com:user/repo
-  ${APP_NAME} install https://github.com/user/repo
-  ${APP_NAME} install ssh://git@github.com/user/repo
-  ${APP_NAME} install ./local/path
-`);
+	Examples:
+	  ${APP_NAME} install ./local/path
+	`);
 			return;
 
 		case "remove":
@@ -76,33 +64,23 @@ Examples:
   ${getPackageCommandUsage("remove")}
 
 Remove a package and its source from settings.
-Alias: ${APP_NAME} uninstall <source> [-l]
+	Alias: ${APP_NAME} uninstall <source> [-l]
 
-Options:
-  -l, --local    Remove from project settings (.pi/settings.json)
+	Options:
+	  -l, --local    Remove from project settings (${CONFIG_DIR_NAME}/settings.json)
 
-Examples:
-  ${APP_NAME} remove npm:@foo/bar
-  ${APP_NAME} uninstall npm:@foo/bar
-`);
+	Examples:
+	  ${APP_NAME} remove ./local/path
+	  ${APP_NAME} uninstall ./local/path
+	`);
 			return;
 
 		case "update":
 			console.log(`${chalk.bold("Usage:")}
   ${getPackageCommandUsage("update")}
 
-Update pi and installed packages.
-
-Options:
-  --self                  Update pi only
-  --extensions            Update installed packages only
-  --extension <source>    Update one package only
-
-Short forms:
-  ${APP_NAME} update                Update pi and all extensions
-  ${APP_NAME} update <source>       Update one package
-  ${APP_NAME} update pi             Update pi only (self works as alias to pi)
-`);
+	Package updates are disabled in local-only builds. Replace the local package files directly.
+	`);
 			return;
 
 		case "list":
@@ -248,55 +226,6 @@ function parsePackageCommand(args: string[]): PackageCommandOptions | undefined 
 	};
 }
 
-function updateTargetIncludesSelf(target: UpdateTarget): boolean {
-	return target.type === "all" || target.type === "self";
-}
-
-function updateTargetIncludesExtensions(target: UpdateTarget): boolean {
-	return target.type === "all" || target.type === "extensions";
-}
-
-function canSelfUpdate(): boolean {
-	return getSelfUpdateCommand(PACKAGE_NAME) !== undefined;
-}
-
-function printSelfUpdateUnavailable(): void {
-	console.error(`error: ${APP_NAME} cannot self-update this installation.`);
-	console.error(getSelfUpdateUnavailableInstruction(PACKAGE_NAME));
-
-	const entrypoint = process.argv[1];
-	if (entrypoint) {
-		console.error("");
-		console.error(`Location of pi executable: ${entrypoint}`);
-	}
-}
-
-async function runSelfUpdate(): Promise<void> {
-	const command = getSelfUpdateCommand(PACKAGE_NAME);
-	if (!command) {
-		throw new Error(
-			`${APP_NAME} cannot self-update this installation. ${getSelfUpdateUnavailableInstruction(PACKAGE_NAME)}`,
-		);
-	}
-
-	console.log(chalk.dim(`Updating ${APP_NAME} with ${command.display}...`));
-	await new Promise<void>((resolve, reject) => {
-		const child = spawn(command.command, command.args, { stdio: "inherit" });
-		child.on("error", (error) => {
-			reject(error);
-		});
-		child.on("close", (code, signal) => {
-			if (code === 0) {
-				resolve();
-			} else if (signal) {
-				reject(new Error(`${command.display} terminated by signal ${signal}`));
-			} else {
-				reject(new Error(`${command.display} exited with code ${code ?? "unknown"}`));
-			}
-		});
-	});
-}
-
 export async function handleConfigCommand(args: string[]): Promise<boolean> {
 	if (args[0] !== "config") {
 		return false;
@@ -362,12 +291,6 @@ export async function handlePackageCommand(args: string[]): Promise<boolean> {
 	if ((options.command === "install" || options.command === "remove") && !source) {
 		console.error(chalk.red(`Missing ${options.command} source.`));
 		console.error(chalk.dim(`Usage: ${getPackageCommandUsage(options.command)}`));
-		process.exitCode = 1;
-		return true;
-	}
-
-	if (options.command === "update" && options.updateTarget?.type === "self" && !canSelfUpdate()) {
-		printSelfUpdateUnavailable();
 		process.exitCode = 1;
 		return true;
 	}
@@ -439,25 +362,10 @@ export async function handlePackageCommand(args: string[]): Promise<boolean> {
 			}
 
 			case "update": {
-				const target = options.updateTarget ?? { type: "all" };
-				if (updateTargetIncludesExtensions(target)) {
-					const updateSource = target.type === "extensions" ? target.source : undefined;
-					await packageManager.update(updateSource);
-					if (updateSource) {
-						console.log(chalk.green(`Updated ${updateSource}`));
-					} else {
-						console.log(chalk.green("Updated packages"));
-					}
-				}
-				if (updateTargetIncludesSelf(target)) {
-					if (canSelfUpdate()) {
-						await runSelfUpdate();
-						console.log(chalk.green(`Updated ${APP_NAME}`));
-					} else {
-						printSelfUpdateUnavailable();
-						process.exitCode = 1;
-					}
-				}
+				await packageManager.update(
+					options.updateTarget?.type === "extensions" ? options.updateTarget.source : undefined,
+				);
+				console.log(chalk.dim("Package updates are disabled in local-only builds."));
 				return true;
 			}
 		}

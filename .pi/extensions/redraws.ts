@@ -4,7 +4,7 @@
  * Exposes /tui to show TUI redraw stats.
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@blastpepsi1-eng/lokai-coding-agent";
 import { Text } from "@mariozechner/pi-tui";
 
 export default function (pi: ExtensionAPI) {
